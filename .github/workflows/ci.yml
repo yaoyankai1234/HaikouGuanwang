@@ -1,0 +1,98 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+# 同一 PR 后续 push 取消未完成的旧 run
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  syntax:
+    name: 后端语法 + 类型检查
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Node 语法检查（server/*.mjs）
+        run: |
+          for f in server/*.mjs; do
+            echo "checking $f"
+            node --check "$f"
+          done
+      - name: TypeScript 类型检查
+        run: npm ci --no-audit --no-fund && npm run typecheck
+
+  build:
+    name: 前端构建
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+      - run: npm ci --no-audit --no-fund
+      - run: npm run build
+
+  smoke:
+    name: 后端冒烟（启动隔离副本 + 关键 API + 修复回归）
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: 启动隔离副本（nohup + disown 跨 step 保活）
+        env:
+          ADMIN_PHONE: '13800000000'
+          ADMIN_PASSWORD: 'admin123'
+          PORT: '18851'
+        run: |
+          set -x
+          # setsid + nohup 让 server 进程与当前 shell 完全解绑，跨 step 仍存活
+          setsid nohup node server/index.mjs > /tmp/pms-smoke.log 2>&1 < /dev/null &
+          echo $! > /tmp/pms.pid
+          disown 2>/dev/null || true
+          # 等健康检查通过（最多 30s）
+          for i in $(seq 1 30); do
+            sleep 1
+            if curl -fsS http://127.0.0.1:18851/api/health >/dev/null 2>&1; then
+              echo "server up after ${i}s"
+              curl -fsS http://127.0.0.1:18851/api/health | head -c 200
+              exit 0
+            fi
+          done
+          echo "server 未在 30s 内起来，日志如下："
+          cat /tmp/pms-smoke.log
+          exit 1
+      - name: 跑冒烟测试
+        run: node scripts/smoke.mjs
+      - name: 打印启动日志（失败时排查用）
+        if: always()
+        run: |
+          if [ -f /tmp/pms-smoke.log ]; then
+            echo "=== /tmp/pms-smoke.log 末 80 行 ==="
+            tail -80 /tmp/pms-smoke.log
+          fi
+      - name: 关闭隔离副本
+        if: always()
+        run: |
+          if [ -f /tmp/pms.pid ]; then
+            kill "$(cat /tmp/pms.pid)" 2>/dev/null || true
+            sleep 1
+            pkill -f "node server/index.mjs" 2>/dev/null || true
+          fi
+      - name: 上传冒烟产物（失败时排查用）
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: smoke-log
+          path: /tmp/pms-smoke.log
+          if-no-files-found: ignore
