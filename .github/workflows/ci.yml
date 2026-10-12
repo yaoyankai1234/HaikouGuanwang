@@ -49,33 +49,50 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: 启动隔离副本
+      - name: 启动隔离副本（nohup + disown 跨 step 保活）
         env:
           ADMIN_PHONE: '13800000000'
           ADMIN_PASSWORD: 'admin123'
           PORT: '18851'
         run: |
-          node server/index.mjs > /tmp/pms-smoke.log 2>&1 &
+          set -x
+          # setsid + nohup 让 server 进程与当前 shell 完全解绑，跨 step 仍存活
+          setsid nohup node server/index.mjs > /tmp/pms-smoke.log 2>&1 < /dev/null &
           echo $! > /tmp/pms.pid
-          # 等到健康检查通过
-          for i in $(seq 1 20); do
+          disown 2>/dev/null || true
+          # 等健康检查通过（最多 30s）
+          for i in $(seq 1 30); do
             sleep 1
             if curl -fsS http://127.0.0.1:18851/api/health >/dev/null 2>&1; then
               echo "server up after ${i}s"
-              break
+              curl -fsS http://127.0.0.1:18851/api/health | head -c 200
+              exit 0
             fi
           done
-          curl -fsS http://127.0.0.1:18851/api/health | head -c 200
+          echo "server 未在 30s 内起来，日志如下："
+          cat /tmp/pms-smoke.log
+          exit 1
       - name: 跑冒烟测试
         run: node scripts/smoke.mjs
-      - name: 打印启动日志（失败时）
-        if: failure()
+      - name: 打印启动日志（失败时排查用）
+        if: always()
         run: |
-          echo "=== /tmp/pms-smoke.log ==="
-          cat /tmp/pms-smoke.log | tail -60
+          if [ -f /tmp/pms-smoke.log ]; then
+            echo "=== /tmp/pms-smoke.log 末 80 行 ==="
+            tail -80 /tmp/pms-smoke.log
+          fi
       - name: 关闭隔离副本
         if: always()
         run: |
           if [ -f /tmp/pms.pid ]; then
             kill "$(cat /tmp/pms.pid)" 2>/dev/null || true
+            sleep 1
+            pkill -f "node server/index.mjs" 2>/dev/null || true
           fi
+      - name: 上传冒烟产物（失败时排查用）
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: smoke-log
+          path: /tmp/pms-smoke.log
+          if-no-files-found: ignore
