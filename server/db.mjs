@@ -647,6 +647,17 @@ export function applyConstraints() {
       console.warn(`[constraints] ${table} 重建失败 SQL=`, r.lastSql)
     }
   }
+  // materials 表被上面「CREATE temp + INSERT SELECT + DROP + RENAME」重建后，
+  // 原表上的 uq_materials_name 唯一索引会随 DROP 一起消失。重建后的表里
+  // 又可能塞进了同名的 _SMOKE_ 测试数据 → 重建索引会报 UNIQUE constraint failed。
+  // 所以必须再调一次 ensureMaterialNameUnique：它会先查重，有重名时只 warn
+  // 不建索引；没重名就建索引。
+  if (CHECK_DEFS.materials) {
+    const r = ensureMaterialNameUnique()
+    if (!r.created) {
+      failed.push(`materials.uq_materials_name: ${r.error || '有重名数据，未建立唯一索引'}`)
+    }
+  }
   // 出库超额触发器
   let triggerApplied = false
   try {
