@@ -1,0 +1,81 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+# 同一 PR 后续 push 取消未完成的旧 run
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  syntax:
+    name: 后端语法 + 类型检查
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Node 语法检查（server/*.mjs）
+        run: |
+          for f in server/*.mjs; do
+            echo "checking $f"
+            node --check "$f"
+          done
+      - name: TypeScript 类型检查
+        run: npm ci --no-audit --no-fund && npm run typecheck
+
+  build:
+    name: 前端构建
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+      - run: npm ci --no-audit --no-fund
+      - run: npm run build
+
+  smoke:
+    name: 后端冒烟（启动隔离副本 + 关键 API + 修复回归）
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: 启动隔离副本
+        env:
+          ADMIN_PHONE: '13800000000'
+          ADMIN_PASSWORD: 'admin123'
+          PORT: '18851'
+        run: |
+          node server/index.mjs > /tmp/pms-smoke.log 2>&1 &
+          echo $! > /tmp/pms.pid
+          # 等到健康检查通过
+          for i in $(seq 1 20); do
+            sleep 1
+            if curl -fsS http://127.0.0.1:18851/api/health >/dev/null 2>&1; then
+              echo "server up after ${i}s"
+              break
+            fi
+          done
+          curl -fsS http://127.0.0.1:18851/api/health | head -c 200
+      - name: 跑冒烟测试
+        run: node scripts/smoke.mjs
+      - name: 打印启动日志（失败时）
+        if: failure()
+        run: |
+          echo "=== /tmp/pms-smoke.log ==="
+          cat /tmp/pms-smoke.log | tail -60
+      - name: 关闭隔离副本
+        if: always()
+        run: |
+          if [ -f /tmp/pms.pid ]; then
+            kill "$(cat /tmp/pms.pid)" 2>/dev/null || true
+          fi
