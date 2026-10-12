@@ -8,11 +8,12 @@
  *   node scripts/smoke.mjs
  *
  * 设计原则：
- *  1. 复用 /tmp/qa/runner.mjs 的接口黑盒 + 关键修复回归
+ *  1. 每次跑用一个 RUN_ID 后缀，所有测试数据名都唯一 → 可重入
  *  2. 失败即非零退出（CI 红）
- *  3. 测试数据统一加 _SMOKE_ 前缀，CI 不清理（隔离副本随 runner 销毁）
+ *  3. 测试数据统一加 _SMOKE_<RUN_ID>_ 前缀，CI 不清理（隔离副本随 runner 销毁）
  */
 const BASE = process.env.SMOKE_BASE || 'http://127.0.0.1:18851'
+const RUN_ID = process.env.SMOKE_RUN_ID || `${Date.now()}_${Math.random().toString(36).slice(2, 8)}`
 
 let pass = 0
 let fail = 0
@@ -48,7 +49,10 @@ const call = async (method, path, body, token) => {
 
 const must = (cond, msg) => { if (!cond) throw new Error(msg) }
 
-console.log(`▶ 后端冒烟 @ ${BASE}\n`)
+// 给所有测试数据名加唯一后缀，避免 CI 重跑时撞 unique 约束
+const t = (s) => `${s}_${RUN_ID}`
+
+console.log(`▶ 后端冒烟 @ ${BASE}  (run_id=${RUN_ID})\n`)
 
 // ===== 1. 健康检查 + 种子数据完整性 =====
 await check('1.1 /api/health 200', async () => {
@@ -97,7 +101,7 @@ await check('3.3 GET /api/data/roles', async () => {
 // ===== 4. BUG-R01 回归：CHECK 约束 + 应用层兜底 =====
 await check('4.1 R01 tax_rate=200 应被拒', async () => {
   const r = await call('POST', '/api/data/invoices', {
-    invoice_no: '_SMOKE_TAX_200',
+    invoice_no: t('TAX_200'),
     amount: 100,
     tax_rate: 200,
   }, token)
@@ -107,7 +111,7 @@ await check('4.1 R01 tax_rate=200 应被拒', async () => {
 
 await check('4.2 R01 progress=999 应被拒', async () => {
   const r = await call('POST', '/api/data/teams', {
-    name: '_SMOKE_PROG_999',
+    name: t('PROG_999'),
     progress: 999,
   }, token)
   must(!r.ok, '200 非法值被接受')
@@ -115,8 +119,8 @@ await check('4.2 R01 progress=999 应被拒', async () => {
 
 await check('4.3 R01 total_qty=-100 应被拒', async () => {
   const r = await call('POST', '/api/data/outbound_orders', {
-    out_no: '_SMOKE_QTY_NEG',
-    team_name: '_SMOKE_',
+    out_no: t('QTY_NEG'),
+    team_name: t('TEAM'),
     total_qty: -100,
   }, token)
   must(!r.ok, '200 非法值被接受')
@@ -132,7 +136,7 @@ await check('5.1 准备：取一个物资 ID', async () => {
 
 await check('5.2 R02 入库 50', async () => {
   const order = await call('POST', '/api/data/inbound_orders', {
-    in_no: '_SMOKE_IN_50',
+    in_no: t('IN_50'),
     in_date: '2026-10-12',
     warehouse: '项目部主仓',
   }, token)
@@ -140,7 +144,7 @@ await check('5.2 R02 入库 50', async () => {
   const item = await call('POST', '/api/data/inbound_items', {
     inbound_id: order.data.id,
     material_id: materialId,
-    material_name: '_SMOKE_',
+    material_name: t('MAT'),
     qty: 50,
   }, token)
   must(item.ok, `添加入库明细失败: ${item.message}`)
@@ -148,15 +152,15 @@ await check('5.2 R02 入库 50', async () => {
 
 await check('5.3 R02 出库 9999 应被拒', async () => {
   const order = await call('POST', '/api/data/outbound_orders', {
-    out_no: '_SMOKE_OUT_9999',
+    out_no: t('OUT_9999'),
     out_date: '2026-10-12',
-    team_name: '_SMOKE_',
+    team_name: t('TEAM'),
   }, token)
   must(order.ok, `创建出库单失败: ${order.message}`)
   const item = await call('POST', '/api/data/outbound_items', {
     outbound_id: order.data.id,
     material_id: materialId,
-    material_name: '_SMOKE_',
+    material_name: t('MAT'),
     qty: 9999,
   }, token)
   must(!item.ok, '超额未被拦截')
@@ -173,9 +177,8 @@ await check('6.1 R06 2000 字符 name 应被拒', async () => {
 })
 
 // ===== 7. 商品名称唯一（库层 UNIQUE + 前端 beforeSave） =====
-// 用 _SMOKE_ 前缀 + 时间戳的新名先建一条，再尝试同名校验，
-// 避免依赖/污染种子，也让 smoke 可重入
-const uniqName = `_SMOKE_TEST_UNIQ_${Date.now()}`
+// 用 _SMOKE_ + RUN_ID 后缀的新名先建一条，再尝试同名校验
+const uniqName = t('TEST_UNIQ')
 await check('7.1 插入 _SMOKE_ 测试名应成功', async () => {
   const r = await call('POST', '/api/data/materials', {
     name: uniqName,
@@ -195,10 +198,7 @@ await check('7.2 同名重插应被拒', async () => {
 await check('8.1 R04 DELETE 应返回 {deleted, skipped} 结构', async () => {
   // 找一条入库单试图删除（不存在的 id）
   const r = await call('DELETE', '/api/data/inbound_orders?ids=999999', null, token)
-  // 401/404 都可能，结构必须为对象
   must(typeof r.raw === 'object', '返回非对象')
-  // 真正看：调用成功但 deleted=0 的话，结构应当含 deleted 字段
-  // 部分后端在删 0 条时也返回 deleted=0
   if (r.ok) {
     must('deleted' in (r.data || {}), '成功响应无 deleted 字段')
   }
