@@ -1,0 +1,97 @@
+{
+  "material_categories": [
+    {"id":1,"code":"CL-01","name":"主管道","spec_range":"DN150-DN400","unit":"m","remark":"球墨铸铁管/PE管，村外输水主干","created_at":"2026-10-09T10:22:39.187752+08:00"},
+    {"id":2,"code":"CL-02","name":"村内管","spec_range":"De32-DN250","unit":"m","remark":"村内配水管网","created_at":"2026-10-09T10:22:39.187752+08:00"},
+    {"id":3,"code":"CL-03","name":"接户管","spec_range":"De25","unit":"m","remark":"入户支管","created_at":"2026-10-09T10:22:39.187752+08:00"},
+    {"id":4,"code":"CL-04","name":"水泥","spec_range":"P.O42.5","unit":"t","remark":"管道基座、井体砌筑","created_at":"2026-10-09T10:22:39.187752+08:00"},
+    {"id":5,"code":"CL-05","name":"砂石","spec_range":"中砂/5-25mm碎石","unit":"m³","remark":"管沟回填、混凝土骨料","created_at":"2026-10-09T10:22:39.187752+08:00"},
+    {"id":6,"code":"CL-06","name":"水表","spec_range":"DN15-DN50","unit":"只","remark":"入户计量","created_at":"2026-10-09T10:22:39.187752+08:00"},
+    {"id":7,"code":"CL-07","name":"管件阀门","spec_range":"DN25-DN400","unit":"个","remark":"弯头/三通/闸阀/伸缩节","created_at":"2026-10-09T10:22:39.187752+08:00"},
+    {"id":8,"code":"CL-08","name":"井盖井座","spec_range":"φ700","unit":"套","remark":"阀门井、水表井","created_at":"2026-10-09T10:22:39.187752+08:00"},
+    {"id":9,"code":"CL-09","name":"消火栓","spec_range":"SS100/65","unit":"套","remark":"室外消火栓","created_at":"2026-10-09T10:22:39.187752+08:00"},
+    {"id":10,"code":"CL-10","name":"混凝土","spec_range":"C25/C30","unit":"m³","remark":"镇墩、支墩、路面恢复","created_at":"2026-10-09T10:22:39.187752+08:00"},
+    {"id":11,"code":"CL-11","name":"路面材料","spec_range":"中粒式沥青","unit":"t","remark":"破除路面恢复","created_at":"2026-10-09T10:22:39.187752+08:00"},
+    {"id":12,"code":"CL-12","name":"辅助材料","spec_range":"焊条/胶圈/防腐带","unit":"批","remark":"接口材料及防腐","created_at":"2026-10-09T10:22:39.187752+08:00"},
+    {"id":13,"code":"GL-13","name":"设备","spec_range":"SB-GLL","unit":"台","remark":null,"created_at":"2026-10-09T11:15:50.709873+08:00"}
+  ],
+  "materials": [
+    {"id":1,"code":"WZ-04","name":"DN400 球墨铸铁管(K9)","category_id":1,"category_name":"主管道","spec":"DN400","unit":"m","brand":null,"ref_price":468,"safety_stock":100,"remark":null,"created_at":"2026-10-09T10:22:48.220305+08:00"},
+    {"id":2,"code":"WZ-03","name":"DN300 球墨铸铁管(K9)","category_id":1,"category_name":"主管道","spec":"DN300","unit":"m","brand":null,"ref_price":312,"safety_stock":150,"remark":null,"created_at":"2026-10-09T10:22:48.220305+08:00"},
+    {"id":3,"code":"WZ-02","name":"DN200 球墨铸铁管(K9)","category_id":1,"category_name":"主管道","spec":"DN200","unit":"m","brand":null,"ref_price":186,"safety_stock":200,"remark":null,"created_at":"2026-10-09T10:22:48.220305+08:00"},
+    {"id":4,"code":"WZ-01","name":"DN150 球墨铸铁管(K9)","category_id":1,"category_name":"主管道","spec":"DN150","unit":"m","brand":null,"ref_price":128,"safety_stock":200,"remark":null,"created_at":"2026-10-09T10:22:48.220305+08:00"},
+    {"id":5,"code":"WZ-08","name":"PVC-U 给水管 De160","category_id":2,"category_name":"村内管","spec":"De160 PN1.0","unit":"m","brand":null,"ref_price":88,"safety_stock":600,"remark":null,"created_at":"2026-10-09T10:22:48.220305+08:00"},
+    {"id":6,"code":"WZ-07","name":"PE100 给水管 De110","category_id":2,"category_name":"村内管","spec":"De110 PN1.6","unit":"m","brand":null,"ref_price":76,"safety_stock":1000,"remark":null,"created_at":"2026-10-09T10:22:48.220305+08:00"},
+    {"id":7,"code":"WZ-06","name":"PE100 给水管 De63","category_id":2,"category_name":"村内管","spec":"De63 PN1.6","unit":"m","brand":null,"ref_price":28.5,"safety_stock":1500,"remark":null,"created_at":"2026-10-09T10:22:48.220305+08:00"},
+    {"id":8,"code":"WZ-05","name":"PE100 给水管 De32","category_id":2,"category_name":"村内管","spec":"De32 PN1.6","unit":"m","brand":null,"ref_price":9.8,"safety_stock":2000,"remark":null,"created_at":"2026-10-09T10:22:48.220305+08:00"},
+    {"id":9,"code":"WZ-09","name":"PE100 接户管 De25","category_id":3,"category_name":"接户管","spec":"De25 PN1.6","unit":"m","brand":null,"ref_price":6.2,"safety_stock":3000,"remark":null,"created_at":"2026-10-09T10:22:48.220305+08:00"},
+    {"id":10,"code":"WZ-10","name":"P.O42.5 普通硅酸盐水泥","category_id":4,"category_name":"水泥","spec":"P.O42.5","unit":"t","brand":null,"ref_price":468,"safety_stock":50,"remark":null,"created_at":"2026-10-09T10:22:48.220305+08:00"},
+    {"id":11,"code":"WZ-12","name":"碎石 5-25mm","category_id":5,"category_name":"砂石","spec":"5-25mm","unit":"m³","brand":null,"ref_price":118,"safety_stock":200,"remark":null,"created_at":"2026-10-09T10:22:48.220305+08:00"},
+    {"id":12,"code":"WZ-11","name":"中砂","category_id":5,"category_name":"砂石","spec":"细度模数2.3-3.0","unit":"m³","brand":null,"ref_price":132,"safety_stock":200,"remark":null,"created_at":"2026-10-09T10:22:48.220305+08:00"},
+    {"id":13,"code":"WZ-15","name":"智能远传水表 DN25","category_id":6,"category_name":"水表","spec":"DN25 NB-IoT","unit":"只","brand":null,"ref_price":386,"safety_stock":50,"remark":null,"created_at":"2026-10-09T10:22:48.220305+08:00"},
+    {"id":14,"code":"WZ-14","name":"旋翼式水表 DN20","category_id":6,"category_name":"水表","spec":"DN20","unit":"只","brand":null,"ref_price":128,"safety_stock":100,"remark":null,"created_at":"2026-10-09T10:22:48.220305+08:00"},
+    {"id":15,"code":"WZ-13","name":"旋翼式水表 DN15","category_id":6,"category_name":"水表","spec":"DN15","unit":"只","brand":null,"ref_price":96,"safety_stock":100,"remark":null,"created_at":"2026-10-09T10:22:48.220305+08:00"},
+    {"id":16,"code":"WZ-18","name":"伸缩节 DN300","category_id":7,"category_name":"管件阀门","spec":"DN300","unit":"个","brand":null,"ref_price":920,"safety_stock":20,"remark":null,"created_at":"2026-10-09T10:22:48.220305+08:00"},
+    {"id":17,"code":"WZ-17","name":"弹性座封闸阀 DN150","category_id":7,"category_name":"管件阀门","spec":"DN150 PN1.6","unit":"个","brand":null,"ref_price":680,"safety_stock":30,"remark":null,"created_at":"2026-10-09T10:22:48.220305+08:00"},
+    {"id":18,"code":"WZ-16","name":"球墨铸铁弯头 DN200","category_id":7,"category_name":"管件阀门","spec":"DN200 90°","unit":"个","brand":null,"ref_price":215,"safety_stock":60,"remark":null,"created_at":"2026-10-09T10:22:48.220305+08:00"},
+    {"id":19,"code":"WZ-19","name":"球墨铸铁井盖 φ700","category_id":8,"category_name":"井盖井座","spec":"φ700 D400","unit":"套","brand":null,"ref_price":420,"safety_stock":40,"remark":null,"created_at":"2026-10-09T10:22:48.220305+08:00"},
+    {"id":20,"code":"WZ-20","name":"室外消火栓 SS100/65","category_id":9,"category_name":"消火栓","spec":"SS100/65-1.6","unit":"套","brand":null,"ref_price":1450,"safety_stock":15,"remark":null,"created_at":"2026-10-09T10:22:48.220305+08:00"},
+    {"id":21,"code":"WZ-21","name":"C25 商品混凝土","category_id":10,"category_name":"混凝土","spec":"C25","unit":"m³","brand":null,"ref_price":486,"safety_stock":0,"remark":null,"created_at":"2026-10-09T10:22:48.220305+08:00"},
+    {"id":22,"code":"WZ-22","name":"中粒式沥青混凝土","category_id":11,"category_name":"路面材料","spec":"AC-16C","unit":"t","brand":null,"ref_price":620,"safety_stock":0,"remark":null,"created_at":"2026-10-09T10:22:48.220305+08:00"},
+    {"id":23,"code":"WZ-23","name":"橡胶密封圈 DN200","category_id":12,"category_name":"辅助材料","spec":"DN200","unit":"个","brand":null,"ref_price":12,"safety_stock":300,"remark":null,"created_at":"2026-10-09T10:22:48.220305+08:00"}
+  ],
+  "suppliers": [
+    {"id":2,"code":"GYS-001","name":"海南省供水系统有限公司","cooperation":"已合作","main_type":"管材管件","supply_scope":"各类水管","contact":"李洪波","phone":"18888888888","address":"海南省美兰区牛纯真地方","rating":"A 级","remark":"不错的选择","created_at":"2026-10-09T10:56:10.970927+08:00"}
+  ],
+  "contracts": [
+    {"id":1,"contract_no":"HT-2026-0001","name":"水管管理采购","supplier_id":2,"supplier_name":"海南省供水系统有限公司","amount":200000,"sign_date":"2026-10-09","start_date":"2026-10-09","end_date":"2026-10-30","pay_terms":null,"status":"履约中","file_path":"shared/2108388888711008256/contracts/a3119908-1341-48d5-8a29-aa2bbf66882e-古诗.pdf","file_name":"古诗.pdf","remark":"加急处理","created_at":"2026-10-09T10:59:23.992861+08:00"}
+  ],
+  "invoices": [
+    {"id":1,"invoice_no":"we9wq9rwew","invoice_type":"增值税普通发票","supplier_id":2,"supplier_name":"海南省供水系统有限公司","contract_id":1,"contract_no":"HT-2026-0001","amount":20000,"tax_rate":13,"invoice_date":"2026-10-09","status":"已开票","file_path":"shared/2108388888711008256/invoices/7c64de7b-9344-4b24-8ea7-f0be98833180-古诗.pdf","file_name":"古诗.pdf","remark":null,"created_at":"2026-10-09T11:00:51.404178+08:00"}
+  ],
+  "payments": [
+    {"id":1,"contract_id":1,"contract_no":"HT-2026-0001","contract_name":"水管管理采购","supplier_id":2,"supplier_name":"海南省供水系统有限公司","stage_name":"预付款","stage_seq":1,"ratio":10,"plan_amount":200000,"paid_amount":20000,"status":"部分付款","plan_date":"2026-10-09","paid_date":"2026-10-09","pay_method":"银行转账","remark":null,"created_at":"2026-10-09T11:01:50.742783+08:00"}
+  ],
+  "purchase_orders": [
+    {"id":4,"order_no":"CG-cg0001","supplier_id":2,"supplier_name":"海南省供水系统有限公司","order_date":"2026-10-08","expect_date":"2026-10-09","contract_id":1,"contract_no":"HT-2026-0001","contract_name":"水管管理采购","total_amount":9360,"status":"已下单","buyer":"y姚爽","remark":null,"has_contract":"是","created_at":"2026-10-09T11:32:51.483753+08:00"},
+    {"id":5,"order_no":"CG-0002","supplier_id":2,"supplier_name":"海南省供水系统有限公司","order_date":"2026-10-09","expect_date":"2026-10-09","contract_id":1,"contract_no":"HT-2026-0001","contract_name":"水管管理采购","total_amount":3120,"status":"已下单","buyer":"霍先生","remark":null,"has_contract":"是","created_at":"2026-10-09T12:33:47.166308+08:00"}
+  ],
+  "purchase_order_items": [
+    {"id":1,"order_id":4,"category_id":1,"category_name":"主管道","material_id":1,"material_name":"DN400 球墨铸铁管(K9)","spec":"DN400","unit":"m","qty":20,"unit_price":468,"amount":9360,"arrived_qty":0,"remark":null,"created_at":"2026-10-09T11:32:51.696182+08:00"},
+    {"id":2,"order_id":5,"category_id":1,"category_name":"主管道","material_id":2,"material_name":"DN300 球墨铸铁管(K9)","spec":"DN300","unit":"m","qty":10,"unit_price":312,"amount":3120,"arrived_qty":0,"remark":null,"created_at":"2026-10-09T12:33:47.299747+08:00"}
+  ],
+  "inbound_orders": [
+    {"id":1,"in_no":"RK-0001","in_date":"2026-10-09","supplier_id":2,"supplier_name":"海南省供水系统有限公司","order_id":4,"order_no":"CG-cg0001","contract_id":1,"contract_no":"HT-2026-0001","contract_name":"水管管理采购","warehouse":"项目部主仓","inspector":"姚爽","status":"已入库","total_amount":7020,"remark":"已到货了","created_at":"2026-10-09T11:35:42.488799+08:00"},
+    {"id":2,"in_no":"RK-0003","in_date":"2026-10-09","supplier_id":2,"supplier_name":"海南省供水系统有限公司","order_id":5,"order_no":"CG-0002","contract_id":1,"contract_no":"HT-2026-0001","contract_name":"水管管理采购","warehouse":"项目部主仓","inspector":null,"status":"已入库","total_amount":3120,"remark":null,"created_at":"2026-10-09T12:34:49.116863+08:00"}
+  ],
+  "inbound_items": [
+    {"id":4,"inbound_id":1,"category_id":1,"category_name":"主管道","material_id":1,"material_name":"DN400 球墨铸铁管(K9)","spec":"DN400","unit":"m","qty":15,"qualified_qty":15,"unit_price":468,"amount":7020,"batch_no":"00001","remark":"接到","created_at":"2026-10-09T11:42:09.771039+08:00"},
+    {"id":5,"inbound_id":2,"category_id":1,"category_name":"主管道","material_id":2,"material_name":"DN300 球墨铸铁管(K9)","spec":"DN300","unit":"m","qty":10,"qualified_qty":9,"unit_price":312,"amount":3120,"batch_no":null,"remark":null,"created_at":"2026-10-09T12:34:49.303519+08:00"}
+  ],
+  "outbound_orders": [
+    {"id":1,"out_no":"CK-001","out_date":"2026-10-09","team_id":1,"team_name":"施工队A对","stage_id":1,"stage_name":"主管道铺设","usage_desc":"需要架设管道","keeper":"姚焱凯","status":"已出库","total_qty":4,"remark":"加急备货","created_at":"2026-10-09T11:49:15.313211+08:00"},
+    {"id":2,"out_no":"CK-0002","out_date":"2026-10-09","team_id":2,"team_name":"施工队B队","stage_id":2,"stage_name":"村内管网铺设","usage_desc":"需要架设管道","keeper":"姚焱凯","status":"已出库","total_qty":4,"remark":"加急备货","created_at":"2026-10-09T11:49:45.476778+08:00"}
+  ],
+  "outbound_items": [
+    {"id":1,"outbound_id":1,"category_id":1,"category_name":"主管道","material_id":1,"material_name":"DN400 球墨铸铁管(K9)","spec":"DN400","unit":"m","qty":4,"remark":null,"created_at":"2026-10-09T11:49:15.462231+08:00"},
+    {"id":5,"outbound_id":2,"category_id":1,"category_name":"主管道","material_id":1,"material_name":"DN400 球墨铸铁管(K9)","spec":"DN400","unit":"m","qty":4,"remark":null,"created_at":"2026-10-09T12:11:02.729099+08:00"}
+  ],
+  "defects": [
+    {"id":1,"record_no":"SH202610094249","record_date":"2026-10-09","type":"损耗","source":"现场施工","category_id":1,"category_name":"主管道","material_id":1,"material_name":"DN400 球墨铸铁管(K9)","spec":"DN400","unit":"m","qty":1,"unit_price":468,"amount":468,"supplier_id":2,"supplier_name":"海南省供水系统有限公司","team_id":1,"team_name":"施工队A对","reason":null,"disposal":"退货","handler":"姚焱凯","status":"处理中","remark":null,"source_no":null,"created_at":"2026-10-09T12:00:54.401097+08:00"},
+    {"id":2,"record_no":"BH-RK-0003-1","record_date":"2026-10-09","type":"不合格","source":"入库验收","category_id":1,"category_name":"主管道","material_id":2,"material_name":"DN300 球墨铸铁管(K9)","spec":"DN300","unit":"m","qty":1,"unit_price":312,"amount":312,"supplier_id":2,"supplier_name":"海南省供水系统有限公司","team_id":null,"team_name":null,"reason":"入库验收不合格（来源入库单 RK-0003）","disposal":"退货","handler":null,"status":"待处理","remark":"由入库单验收自动生成，合格数量调整后会自动同步","source_no":"RK-0003","created_at":"2026-10-09T12:34:58.216933+08:00"}
+  ],
+  "misc_purchases": [
+    {"id":10,"bill_no":"FP1232131","category":"办公用品","item_name":"房租费","spec":null,"qty":0,"unit":null,"unit_price":0,"amount":1999.65,"vendor":null,"pay_method":"支付宝","handler":null,"expense_date":"2026-10-10","status":"已报销","file_path":null,"file_name":null,"remark":null,"created_at":"2026-10-10T09:42:25.22125+08:00"},
+    {"id":11,"bill_no":"FGJJJJJJJ","category":"房租费","item_name":"房租费","spec":null,"qty":0,"unit":null,"unit_price":0,"amount":300,"vendor":null,"pay_method":null,"handler":null,"expense_date":"2026-10-10","status":"待报销","file_path":"[{\"path\":\"shared/2108388888711008256/misc-purchases/bd1c36f3-e278-482e-afb1-a67b48882ebd-古诗.pdf\",\"name\":\"古诗.pdf\"}]","file_name":"古诗.pdf","remark":null,"created_at":"2026-10-10T09:51:32.20496+08:00"}
+  ],
+  "teams": [
+    {"id":1,"name":"施工队A对","leader":"邓飞天","phone":"19999999999","section":"099国道标段","village":"冬奥村","progress":0,"status":"施工中","plan_start":"2026-10-09","plan_end":"2026-10-30","remark":"主要安全","created_at":"2026-10-09T11:43:49.663557+08:00"},
+    {"id":2,"name":"施工队B队","leader":"熊和林","phone":"17878788888","section":"乡道999","village":"海边村","progress":0,"status":"施工中","plan_start":"2026-10-09","plan_end":"2026-10-31","remark":null,"created_at":"2026-10-09T11:46:41.819187+08:00"}
+  ],
+  "team_stages": [
+    {"id":1,"team_id":1,"team_name":"施工队A对","name":"主管道铺设","seq":1,"progress":10,"start_date":"2026-10-09","end_date":"2026-10-16","status":"进行中","remark":null,"created_at":"2026-10-09T11:45:34.405568+08:00"},
+    {"id":2,"team_id":2,"team_name":"施工队B队","name":"村内管网铺设","seq":2,"progress":0,"start_date":"2026-10-09","end_date":"2026-10-29","status":"未开始","remark":null,"created_at":"2026-10-09T11:47:23.274501+08:00"}
+  ],
+  "backup_logs": [
+    {"id":2,"backup_no":"BK20261010_1015","operator_id":"2108388888711008256","operator_name":"姚焱凯","table_count":19,"row_count":149,"format":"JSON 数据","file_name":"供水管网系统备份_20261010_1015","include_files":"是（3 个）","status":"已完成","detail":"物资分类、物资台账、供应商档案、采购订单、采购订单明细、物资入库单、入库单明细、物资出库单、出库单明细、损耗与不合格、合同管理、发票管理、付款进度、非工程采购、团队分组、进度节点、用户档案、角色定义、角色权限","remark":null,"kind":"备份","created_at":"2026-10-10T10:15:40.984159+08:00"}
+  ]
+}

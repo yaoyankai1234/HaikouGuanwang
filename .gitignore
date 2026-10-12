@@ -1,0 +1,52 @@
+# 依赖
+node_modules/
+.pnpm-store/
+
+# 业务数据与上传文件（合同 / 付款 / 出入库单据 / 备份，含生产数据，禁止入库）
+server/data/
+server/uploads/
+
+# 构建产物（由 npm run build 重新生成）
+webui/
+dist/
+build/
+
+# WorkBuddy 平台元数据（绑项目 / 部署用，不参与业务代码演进）
+.workbuddy/
+*.genie
+.wbapp*
+
+# Vite HMR 临时文件
+vite.config.ts.timestamp-*.mjs
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# 日志
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# 环境变量（密码 / token 切勿入库）
+.env
+.env.*
+!.env.example
+
+# IDE / 编辑器
+.vscode/
+!.vscode/settings.json.example
+.idea/
+*.swp
+*.swo
+*~
+
+# Node 工具产物
+.npm/
+.eslintcache
+.prettierrc.cache
+*.tsbuildinfo
