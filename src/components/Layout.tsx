@@ -28,6 +28,7 @@ import {
 } from 'lucide-react'
 import { useAuth } from '../store/auth'
 import { cx } from './ui'
+import { Footer } from './Footer'
 import { APP_REGION, APP_SHORT } from '../cloud'
 
 type IconType = React.ComponentType<{ size?: number | string; className?: string }>
@@ -251,8 +252,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
             {roleName}
           </div>
         </header>
-        <main className="min-h-0 flex-1 overflow-y-auto px-4 py-6 lg:px-7">
-          <div className="mx-auto max-w-[1500px] animate-fade-in">{children}</div>
+        <main className="flex min-h-0 flex-1 flex-col overflow-y-auto px-4 py-6 lg:px-7">
+          <div className="mx-auto w-full max-w-[1500px] flex-1 animate-fade-in">{children}</div>
+          <Footer className="mt-6 shrink-0" />
         </main>
       </div>
     </div>

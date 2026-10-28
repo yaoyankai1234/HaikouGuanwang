@@ -3,6 +3,7 @@ import { Boxes, CheckCircle2, Droplets, KeyRound, ShieldCheck, Smartphone, Sprou
 import { APP_REGION, APP_SHORT } from '../cloud'
 import { useAuth } from '../store/auth'
 import { Button, Field, Input } from '../components/ui'
+import { Footer } from '../components/Footer'
 
 /**
  * 登录页：手机号 + 密码。
@@ -39,7 +40,7 @@ export function Login() {
   }
 
   return (
-    <div className="relative flex min-h-full items-center justify-center overflow-hidden bg-slate-50 px-4 py-10">
+    <div className="relative flex min-h-full flex-col items-center justify-center overflow-hidden bg-slate-50 px-4 py-10">
       <div className="pointer-events-none absolute -left-32 -top-32 h-96 w-96 rounded-full bg-brand-200/40 blur-3xl" />
       <div className="pointer-events-none absolute -bottom-40 -right-24 h-96 w-96 rounded-full bg-cyan-200/40 blur-3xl" />
 
@@ -132,6 +133,8 @@ export function Login() {
           </p>
         </div>
       </div>
+
+      <Footer className="relative mt-7" />
     </div>
   )
 }
